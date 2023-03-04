@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>JS Coordinates</title>
+  </head>
+  <body>
+    <div align="center">
+      <table>
+        <tr>
+          <td>Latitude</td>
+          <td>
+            <input type="text" id="txt_latitude" readonly="" />
+          </td>
+        </tr>
+        <tr>
+          <td>Longitude</td>
+          <td>
+            <input type="text" id="txt_longitude" readonly="" />
+          </td>
+        </tr>
+      </table>
+      <iframe id="frame" src="http://maps.google.com/maps?q=9.893205,76.738187&z=16&output=embed" height="450" width="600"></iframe>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        var Longitude, Latitude
+        setInterval(function () {
+          function showPosition(position) {
+            Latitude = position.coords.latitude
+            Longitude = position.coords.longitude
+      
+            console.clear()
+      
+            console.log('Latitude = ' + Latitude)
+            console.log('Longitude = ' + Longitude)
+      
+            document.getElementById('txt_longitude').value = Longitude
+            document.getElementById('txt_latitude').value = Latitude
+      
+            //un-comment below code  for current location map
+            document.getElementById("frame").src = "http://maps.google.com/maps?q=" + Latitude + "," + Longitude + "&z=16&output=embed";
+          }
+          function getLocation() {
+            if (navigator.geolocation) {
+              navigator.geolocation.getCurrentPosition(showPosition)
+            } else {
+              alert('Geolocation is not supported by this browser.')
+            }
+          }
+          getLocation()
+        }, 50)
+      })
+      
+      //Location Data
+      
+      //            function ipLookUp() {
+      //                $.ajax('http://ip-api.com/json')
+      //                        .then(
+      //                                function success(response) {
+      //                                    console.log('User\'s Location Data is ', response);
+      //                                    console.log('User\'s Country', response.country);
+      //                                },
+      //                                function fail(data, status) {
+      //                                    console.log('Request failed.  Returned status of',
+      //                                            status);
+      //                                }
+      //                        );
+      //            }
+      //            ipLookUp();
+    </script>
+  </body>
+</html>
