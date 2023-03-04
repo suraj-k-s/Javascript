@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Base64</title>
+</head>
+<body>
+<form>
+	<table border="1" align="center">
+		<tr>
+			<td>
+				<input type="file" id="files" name="files" />
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<textarea id="base64" rows="20" cols="30" ></textarea>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<img  src="" width="240" height="120" id="img">
+			</td>
+		</tr>
+	</table>
+
+
+</form>
+</body>
+<script>
+	// Check for the File API support.
+if (window.File && window.FileReader && window.FileList && window.Blob) {
+  document.getElementById('files').addEventListener('change', handleFileSelect, false);
+} else {
+  alert('The File APIs are not fully supported in this browser.');
+}
+
+function handleFileSelect(evt) {
+  var f = evt.target.files[0]; // FileList object
+  var reader = new FileReader();
+  // Closure to capture the file information.
+  reader.onload = (function(theFile) {
+    return function(e) {
+      var binaryData = e.target.result;
+      //Converting Binary Data to base 64
+      var base64String = window.btoa(binaryData);
+      //showing file converted to base64
+      document.getElementById('base64').value = 'data:image/jpeg;base64,'+base64String;
+
+      var url = 'data:image/jpeg;base64,'+base64String;
+
+      
+		img.src=url;
+		document.body.img.appendChild(img);
+      
+    };
+  })(f);
+  // Read in the image file as a data URL.
+  reader.readAsBinaryString(f);
+}
+</script>
+</html>
